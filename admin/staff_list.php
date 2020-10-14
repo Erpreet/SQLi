@@ -17,6 +17,22 @@ if( !$result = $connection->query($sql) ) {
 
 if( 0 === $result->num_rows ) {
     $staff_members = '<tr><td colspan="4">There are no staff members</td></tr>';
+} else {
+    while( $row = $result->fetch_assoc() ) {
+        $staff_members .= sprintf('
+            <tr>
+                <td>%d</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td><a href="staff_edit.php?staff_id=%d">Edit</a></td>
+            </tr>
+            ',
+            $row['StaffID'],
+            $row['FirstName'],
+            $row['LastName'],
+            $row['StaffID'],
+         );
+    }
 }
 
 
@@ -32,7 +48,14 @@ if( 0 === $result->num_rows ) {
 <body>
     <h1>Staff Members</h1>
     <table>
-        <?php $staff_members; ?>
+        <tr>
+            <th>Staff ID</th>    
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Actions</th>
+        </tr>
+        <?php echo $staff_members; ?>
+        
     </table>
 </body>
-</html> 
+</html>
